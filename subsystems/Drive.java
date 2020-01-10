@@ -1,25 +1,23 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.subsystems;
-
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.UseDrive;
 
 /**
- * An example subsystem. You can replace with me with your own subsystem.
+ * Add your docs here.
  */
-public class ExampleSubsystem extends Subsystem {
+public class Drive extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-
   @Override
-  protected void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+  public void initDefaultCommand() {
+    setDefaultCommand(new UseDrive(this));
   }
 }
