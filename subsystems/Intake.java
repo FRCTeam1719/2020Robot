@@ -7,18 +7,28 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import frc.robot.commands.UseIntake;
 /**
  * Add your docs here.
  */
 public class Intake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+Spark Intake;
+public Intake(Spark _Intake){
+  Intake = _Intake;
+}
+public void moveIntake(double speed){
+  Intake.set(speed);
+  int var = 0;
+}
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new UseIntake(this));
   }
 }

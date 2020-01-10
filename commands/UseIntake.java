@@ -5,12 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
+import frc.robot.subsystems.Intake;
 
 public class UseIntake extends Command {
-  public UseIntake() {
+  Intake IntakeSubsystem;
+  public UseIntake(Intake IntakeSubsystem) {
+    this.IntakeSubsystem = IntakeSubsystem;
+    requires(IntakeSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -23,6 +28,10 @@ public class UseIntake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double amt = Robot.m_oi.getOperatorRightY();
+    IntakeSubsystem.moveIntake(amt);
+  
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
