@@ -22,7 +22,7 @@ public Intake(Spark _Intake){
 }
 public void moveIntake(double speed){
   Intake.set(speed);
-  int var = 0;
+
 }
 
   @Override
