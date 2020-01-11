@@ -12,10 +12,10 @@ import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
 
 public class UseIntake extends Command {
-  Intake IntakeSubsystem;
-  public UseIntake(Intake IntakeSubsystem) {
-    this.IntakeSubsystem = IntakeSubsystem;
-    requires(IntakeSubsystem);
+  Intake intakeSubsystem;
+  public UseIntake(Intake intakeSubsystem) {
+    this.intakeSubsystem = intakeSubsystem;
+    requires(intakeSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -29,8 +29,11 @@ public class UseIntake extends Command {
   @Override
   protected void execute() {
     double amt = Robot.m_oi.getOperatorRightY();
-    IntakeSubsystem.moveIntake(amt);
-  
+    if(Math.abs(amt) <= .05){
+      amt = 0;
+    }
+    intakeSubsystem.moveIntake(amt);
+ 
 
   }
 
