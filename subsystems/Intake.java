@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.wpilibj.Spark;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.UseIntake;
 /**
@@ -33,7 +33,9 @@ public class Intake extends Subsystem {
 
 
 public void moveIntake(double speed){
-  Intake.set(speed);
+  intake.set(speed);
+  top.set(speed);
+  bottom.set(speed);
 
 }
 
