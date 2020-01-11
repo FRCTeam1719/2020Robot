@@ -30,4 +30,6 @@ public class RobotMap {
   public static CANSparkMax right1 = new CANSparkMax(2, MotorType.kBrushless);
   public static CANSparkMax right2 = new CANSparkMax(3, MotorType.kBrushless);
 
+  public static CANSparkMax climber1 = new CANSparkMax(4, MotorType.kBrushless);
+  public static CANSparkMax climber2 = new CANSparkMax(5, MotorType.kBrushless);
 }
