@@ -18,7 +18,9 @@ public class Climber extends Subsystem {
   // here. Call these from Commands.
   CANSparkMax climber1;
   CANSparkMax climber2;
-  public Climber(CANSparkMax climber1, CANSparkMax climber2) {
+  public Climber(CANSparkMax climber1, CANSparkMax climber2) { 
+    super("Climber");
+
     this.climber1 = climber1;
     this.climber2 = climber2;
   }

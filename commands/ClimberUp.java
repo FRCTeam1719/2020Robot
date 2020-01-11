@@ -32,7 +32,7 @@ public class ClimberUp extends Command {
   @Override
   protected void execute() {
     double timeLmaoEBicGamerStyleOwO = timer.get();
-    climber.raise(1- Math.pow(EXPONENT, -timeLmaoEBicGamerStyleOwO));
+    climber.raise(1 - Math.pow(EXPONENT, -timeLmaoEBicGamerStyleOwO));
   }
 
   // Make this return true when this Command no longer needs to run execute()
