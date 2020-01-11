@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.UseIntake;
@@ -16,10 +18,20 @@ import frc.robot.commands.UseIntake;
 public class Intake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-Spark Intake;
-public Intake(Spark _Intake){
-  Intake = _Intake;
+  CANSparkMax intake;
+  CANSparkMax top;
+  CANSparkMax bottom;
+
+  public Intake(CANSparkMax _intake, CANSparkMax _top, CANSparkMax _bottom) {
+    super("Intake");
+
+    intake = _intake;
+    top = _top;
+    bottom = _bottom;
+    
 }
+
+
 public void moveIntake(double speed){
   Intake.set(speed);
 
