@@ -7,6 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.LambdaCommand;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -39,4 +44,28 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
+
+  private Joystick driver = new Joystick(0);
+  private Joystick operator = new Joystick(1);
+
+  public static int camera1Selected = 0;
+
+  public OI() {
+
+    Button switchButton = new JoystickButton(operator, 2);
+
+    switchButton.whenPressed(new LambdaCommand(() -> {
+      System.out.println("switch");
+      switch (camera1Selected = camera1Selected % 3) {
+      case 0:
+        Robot.SERVER.setSource(Robot.CAMERA0);
+        break;
+      case 1:
+        Robot.SERVER.setSource(Robot.CAMERA1);
+        break;
+      }
+      camera1Selected++;
+    }));
+
+  }
 }
