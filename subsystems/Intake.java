@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.UseIntake;
 
@@ -19,24 +20,24 @@ public class Intake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   CANSparkMax intake;
-  CANSparkMax top;
-  CANSparkMax bottom;
+  Solenoid solenoid;
 
-  public Intake(CANSparkMax _intake, CANSparkMax _top, CANSparkMax _bottom) {
+  public Intake(CANSparkMax _intake, Solenoid _solenoid) {
     super("Intake");
     intake = _intake;
-    top = _top;
-    bottom = _bottom;
+    solenoid = _solenoid;
   }
 
   public void moveIntake(double speed) {
-    top.set(speed);
-    bottom.set(speed);
 
     if (speed > 0) {
       intake.set(1);
     }
 
+  }
+
+  public void setShift(boolean pos) {
+    solenoid.set(pos);
   }
 
   @Override
