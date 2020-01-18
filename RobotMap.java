@@ -10,6 +10,8 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Solenoid;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -29,5 +31,7 @@ public class RobotMap {
   public static CANSparkMax left2 = new CANSparkMax(1, MotorType.kBrushless);
   public static CANSparkMax right1 = new CANSparkMax(2, MotorType.kBrushless);
   public static CANSparkMax right2 = new CANSparkMax(3, MotorType.kBrushless);
+
+  public static Solenoid driveShifter = new Solenoid(1);
 
 }

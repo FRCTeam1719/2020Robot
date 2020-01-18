@@ -28,13 +28,14 @@ public class Drive extends Subsystem {
   CANSparkMax right2Controller;
 
   public Drive(CANSparkMax _left1Controller, CANSparkMax _left2Controller, CANSparkMax _right1Controller,
-      CANSparkMax _right2Controller) {
+      CANSparkMax _right2Controller, Solenoid driveShifter) {
     super("Drive");
 
     left1Controller = _left1Controller;
     left2Controller = _left2Controller;
     right1Controller = _right1Controller;
     right2Controller = _right2Controller;
+    shifter = driveShifter;
 
   }
 
