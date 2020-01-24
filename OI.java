@@ -53,6 +53,7 @@ public class OI {
   public OI() {
 
     Button switchButton = new JoystickButton(operator, 2);
+    Button followTargetButton = new JoystickButton(operator, 3);
 
     switchButton.whenPressed(new LambdaCommand(() -> {
       System.out.println("switch");
@@ -66,6 +67,8 @@ public class OI {
       }
       camera1Selected++;
     }));
+
+    followTargetButton.whileHeld(new MoveToHeading(Robot.drive));
 
   }
 }
