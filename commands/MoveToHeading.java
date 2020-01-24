@@ -40,8 +40,7 @@ public class MoveToHeading extends Command {
   protected void execute() {
 
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-
-    double heading_error = tx;
+    System.out.println("limelight data: " + tx);
     steering_adjust = Kp * tx;
 
     left_command += steering_adjust;

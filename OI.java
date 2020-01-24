@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.LambdaCommand;
+import frc.robot.commands.MoveToHeading;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -45,7 +46,7 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
-  private Joystick driver = new Joystick(0);
+  private Joystick driverJoystick = new Joystick(0);
   private Joystick operator = new Joystick(1);
 
   public static int camera1Selected = 0;
@@ -70,5 +71,29 @@ public class OI {
 
     followTargetButton.whileHeld(new MoveToHeading(Robot.drive));
 
+  }
+
+  public double getDriverLeftY() {
+    return driverJoystick.getRawAxis(1);
+  }
+
+  public double getDriverLeftX() {
+    return driverJoystick.getRawAxis(0);
+  }
+
+  public double getDriverRightY() {
+    return driverJoystick.getRawAxis(5);
+  }
+
+  public double getDriverRightX() {
+    return driverJoystick.getRawAxis(4);
+  }
+
+  public double getOperatorRightY() {
+    return operator.getRawAxis(5);
+  }
+
+  public double getOperatorLeftY() {
+    return operator.getRawAxis(1);
   }
 }

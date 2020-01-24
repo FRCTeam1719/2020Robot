@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.UseDrive;
 
 /**
  * Add your docs here.
@@ -41,6 +42,7 @@ public class Drive extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // setDefaultCommand(new UseDrive(this));
+    setDefaultCommand(new UseDrive(this));
   }
 
   private double clamp(double val) {
