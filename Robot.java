@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
-    drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2, RobotMap.driveShifter);
+    drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2/* , RobotMap.driveShifter */);
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     compressor = new Compressor(0);

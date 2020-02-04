@@ -22,6 +22,7 @@ public class UseDrive extends Command {
 
   public UseDrive(Drive drive) {
     this.drive = drive;
+    requires(this.drive);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -50,6 +51,7 @@ public class UseDrive extends Command {
     rightOutput = rightOutput + (errorR * Kpl);
     if (rightOutput < .01 && rightOutput > -.01)
       rightOutput = 0;
+
     drive.drive(leftOutput, rightOutput);
   }
 
