@@ -33,5 +33,10 @@ public class RobotMap {
   public static CANSparkMax right2 = new CANSparkMax(3, MotorType.kBrushless);
 
   // public static Solenoid driveShifter = new Solenoid(1);
+  public static CANSparkMax intake = new CANSparkMax(6, MotorType.kBrushless);
+  public static CANSparkMax winch = new CANSparkMax(4, MotorType.kBrushless);
+
+  // PNEUMATICS
+  public static Solenoid intakePiston = new Solenoid(0);
 
 }
