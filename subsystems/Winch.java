@@ -12,36 +12,32 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.UseIntake;
+import frc.robot.commands.UseWinch;
 
 /**
  * Add your docs here.
  */
-public class Intake extends Subsystem {
+public class Winch extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  CANSparkMax intake;
-  Solenoid solenoid;
+  CANSparkMax motor;
 
-  public Intake(CANSparkMax _intake, Solenoid _solenoid) {
-    super("Intake");
-    intake = _intake;
-    solenoid = _solenoid;
-  }
-
-  public void moveIntake(double speed) {
-
-    intake.set(speed);
+  public Winch(CANSparkMax motor) {
+    super("Winch");
+    this.motor = motor;
 
   }
 
-  public void setShift(boolean pos) {
-    solenoid.set(pos);
+  public void moveWinch(double speed) {
+
+    motor.set(speed);
+
   }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new UseIntake(this));
+    setDefaultCommand(new UseWinch(this));
   }
 }

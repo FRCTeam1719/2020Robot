@@ -15,6 +15,7 @@ public class UseDrive extends Command {
 
   public UseDrive(Drive drive) {
     this.drive = drive;
+    requires(this.drive);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
