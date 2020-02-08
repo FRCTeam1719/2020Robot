@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.DriverCamera;
 import frc.robot.commands.LambdaCommand;
 import frc.robot.commands.MoveToHeading;
 
@@ -49,28 +50,26 @@ public class OI {
   private Joystick driverJoystick = new Joystick(0);
   private Joystick operator = new Joystick(1);
 
-  public static int camera1Selected = 0;
+  // public static int camera1Selected = 0;
 
   public OI() {
 
-    Button switchButton = new JoystickButton(operator, 2);
-    Button followTargetButton = new JoystickButton(operator, 3);
+    // Button switchButton = new JoystickButton(operator, 2);
 
-    switchButton.whenPressed(new LambdaCommand(() -> {
-      System.out.println("switch");
-      switch (camera1Selected = camera1Selected % 3) {
-      case 0:
-        Robot.SERVER.setSource(Robot.CAMERA0);
-        break;
-      case 1:
-        Robot.SERVER.setSource(Robot.CAMERA1);
-        break;
-      }
-      camera1Selected++;
-    }));
+    /*
+     * switchButton.whenPressed(new LambdaCommand(() -> {
+     * System.out.println("switch"); switch (camera1Selected = camera1Selected % 3)
+     * { case 0: Robot.SERVER.setSource(Robot.CAMERA0); break; case 1:
+     * Robot.SERVER.setSource(Robot.CAMERA1); break; } camera1Selected++; }));
+     */
 
-    followTargetButton.whileHeld(new MoveToHeading(Robot.drive));
+  }
 
+  public void init(Robot robot) {
+    Button followTargetButton = new JoystickButton(driverJoystick, 3);
+    followTargetButton.whileHeld(new MoveToHeading(robot.drive, RobotMap.cameraServo));
+    Button driverCam = new JoystickButton(driverJoystick, 1);
+    driverCam.whenReleased(new DriverCamera(RobotMap.cameraServo));
   }
 
   public double getDriverLeftY() {

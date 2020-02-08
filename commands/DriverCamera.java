@@ -7,58 +7,38 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
-import frc.robot.subsystems.Drive;
 
-public class UseDrive extends Command {
-  Drive drive;
+public class DriverCamera extends Command {
 
-  double Kpl = .1;
-  double errorL = 0;
-  public static double leftOutput = 0;
-  double errorR = 0;
-  public static double rightOutput = 0;
+  Servo cameraServo;
 
-  public UseDrive(Drive drive) {
-    this.drive = drive;
-    requires(this.drive);
+  public DriverCamera(Servo servo) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    cameraServo = servo;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
+    cameraServo.set(0);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
 
-    double leftJoystick = -1 * Robot.m_oi.getDriverLeftY() / 2; // CURRENTLY IN SLOWMODE BECAUSE DIVIDING BY 2.
-    if (leftJoystick < .008 && leftJoystick > -.008)
-      leftJoystick = 0;
-    errorL = leftJoystick - leftOutput;
-    leftOutput = leftOutput + (errorL * Kpl);
-    if (leftOutput < .01 && leftOutput > -.01)
-      leftOutput = 0;
-
-    double rightJoystick = Robot.m_oi.getDriverRightY() / 2;
-    if (rightJoystick < .008 && rightJoystick > -.008)
-      rightJoystick = 0;
-    errorR = rightJoystick - rightOutput;
-    rightOutput = rightOutput + (errorR * Kpl);
-    if (rightOutput < .01 && rightOutput > -.01)
-      rightOutput = 0;
-
-    drive.drive(leftOutput, rightOutput);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

@@ -7,13 +7,17 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Drive;
@@ -37,9 +41,12 @@ public class Robot extends TimedRobot {
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  public static UsbCamera CAMERA0;
-  public static UsbCamera CAMERA1;
-  public static VideoSink SERVER;
+  /*
+   * public static UsbCamera CAMERA0; public static UsbCamera CAMERA1; public
+   * static VideoSink SERVER;
+   */
+
+  private HttpCamera limelightFeed;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -51,18 +58,27 @@ public class Robot extends TimedRobot {
     drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2/* , RobotMap.driveShifter */);
     winch = new Winch(RobotMap.winch);
     intake = new Intake(RobotMap.intake, RobotMap.intakePiston);
+    m_oi.init(this);
+
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+    // Display limelight stuff on shuffleboard
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
+    ShuffleboardTab driverShuffleboardTab = Shuffleboard.getTab("ll stream");
+    limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
+    driverShuffleboardTab.add("ll stream", limelightFeed).withPosition(0, 0).withSize(15, 8);
 
-    CAMERA0 = CameraServer.getInstance().startAutomaticCapture(0);
-    CAMERA1 = CameraServer.getInstance().startAutomaticCapture(1);
-    SERVER = CameraServer.getInstance().getServer();
-
-    SERVER.setSource(CAMERA0);
-
-    compressor = new Compressor(0);
-    compressor.setClosedLoopControl(true);
-    compressor.start();
+    /*
+     * CAMERA0 = CameraServer.getInstance().startAutomaticCapture(0); CAMERA1 =
+     * CameraServer.getInstance().startAutomaticCapture(1); SERVER =
+     * CameraServer.getInstance().getServer();
+     * 
+     * SERVER.setSource(CAMERA0);
+     * 
+     * compressor = new Compressor(0); compressor.setClosedLoopControl(true);
+     * compressor.start();
+     */
   }
 
   /**
