@@ -39,14 +39,13 @@ public class RobotMap {
   public static CANSparkMax winch = new CANSparkMax(4, MotorType.kBrushless);
 
   // PNEUMATICS
-  public static Solenoid intakePiston = new Solenoid(0);
+  // public static Solenoid intakePiston = new Solenoid(0);
 
   public static final Servo cameraServo = new Servo(1);
 
   // Hall effect sensors
-  /*
-   * DigitalInput winchUpperSwitch = new DigitalInput(1); DigitalInput
-   * winchLowerSwitch = new DigitalInput(2);
-   */
+
+  public static DigitalInput winchUpperSwitch = new DigitalInput(0);
+  public static DigitalInput winchLowerSwitch = new DigitalInput(1);
 
 }

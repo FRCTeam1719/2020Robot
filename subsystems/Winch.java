@@ -25,12 +25,12 @@ public class Winch extends Subsystem {
   DigitalInput upperSwitch;
   DigitalInput lowerSwitch;
 
-  public Winch(CANSparkMax motor/* , DigitalInput upperSwitch, DigitalInput lowerSwitch */) {
+  public Winch(CANSparkMax motor, DigitalInput upperSwitch, DigitalInput lowerSwitch) {
     super("Winch");
     this.motor = motor;
-    /*
-     * this.upperSwitch = upperSwitch; this.lowerSwitch = lowerSwitch;
-     */
+
+    this.upperSwitch = upperSwitch;
+    this.lowerSwitch = lowerSwitch;
 
   }
 
