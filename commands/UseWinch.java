@@ -9,20 +9,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Winch;
 
-public class UseDrive extends Command {
-  Drive drive;
+public class UseWinch extends Command {
+  Winch winchSubsystem;
 
-  double Kpl = .1;
-  double errorL = 0;
-  double leftOutput = 0;
-  double errorR = 0;
-  double rightOutput = 0;
-
-  public UseDrive(Drive drive) {
-    this.drive = drive;
-    requires(this.drive);
+  public UseWinch(Winch winchSubsystem) {
+    this.winchSubsystem = winchSubsystem;
+    requires(this.winchSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }
@@ -35,24 +30,12 @@ public class UseDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double amt = Robot.m_oi.getOperatorLeftY();
 
-    double leftJoystick = -1 * Robot.m_oi.getDriverLeftY() / 2; // CURRENTLY IN SLOWMODE BECAUSE DIVIDING BY 2.
-    if (leftJoystick < .008 && leftJoystick > -.008)
-      leftJoystick = 0;
-    errorL = leftJoystick - leftOutput;
-    leftOutput = leftOutput + (errorL * Kpl);
-    if (leftOutput < .01 && leftOutput > -.01)
-      leftOutput = 0;
+    if (amt >= 0 && amt < .08 || (amt <= 0 && amt > -.08))
+      amt = 0;
+    winchSubsystem.moveWinch(-1 * amt);
 
-    double rightJoystick = Robot.m_oi.getDriverRightY() / 2;
-    if (rightJoystick < .008 && rightJoystick > -.008)
-      rightJoystick = 0;
-    errorR = rightJoystick - rightOutput;
-    rightOutput = rightOutput + (errorR * Kpl);
-    if (rightOutput < .01 && rightOutput > -.01)
-      rightOutput = 0;
-
-    drive.drive(leftOutput, rightOutput);
   }
 
   // Make this return true when this Command no longer needs to run execute()
