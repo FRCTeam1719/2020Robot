@@ -42,7 +42,7 @@ public class ToggleWinch extends Command {
       speed = -.4;
     } else if (winch.atBottom()) {
       speed = .4;
-    }
+    } 
     winch.moveWinch(speed);
 
   }
@@ -50,8 +50,6 @@ public class ToggleWinch extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    System.out.println(winch.atBottom() + "bottom");
-    System.out.println(winch.atTop() + "top");
 
     if (!movingUp && winch.atBottom()) {
       return true;

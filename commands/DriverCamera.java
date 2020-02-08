@@ -26,7 +26,7 @@ public class DriverCamera extends Command {
   protected void initialize() {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
-    cameraServo.set(0);
+    cameraServo.set(1);
   }
 
   // Called repeatedly when this Command is scheduled to run

@@ -57,34 +57,27 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2/* , RobotMap.driveShifter */);
     winch = new Winch(RobotMap.winch, RobotMap.winchUpperSwitch, RobotMap.winchLowerSwitch);
-    m_oi.init(this);
-
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
-    // Display limelight stuff on shuffleboard
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
-    ShuffleboardTab driverShuffleboardTab = Shuffleboard.getTab("ll stream");
-    limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
-    driverShuffleboardTab.add("ll stream", limelightFeed).withPosition(0, 0).withSize(15, 8);
-
-    /*
-     * CAMERA0 = CameraServer.getInstance().startAutomaticCapture(0); CAMERA1 =
-     * CameraServer.getInstance().startAutomaticCapture(1); SERVER =
-     * CameraServer.getInstance().getServer();
-     * 
-     * SERVER.setSource(CAMERA0);
-     * 
-     * compressor = new Compressor(0); compressor.setClosedLoopControl(true);
-     * compressor.start();
-     */
     intake = new Intake(RobotMap.intake);
+
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    // compressor = new Compressor(0);
-    // compressor.setClosedLoopControl(true);
-    // compressor.start();
+
+    // Display limelight stuff on shuffleboard
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
+    /*
+     * ShuffleboardTab driverShuffleboardTab = Shuffleboard.getTab("ll stream");
+     * limelightFeed = new HttpCamera("limelight",
+     * "http://limelight.local:5800/stream.mjpg");
+     * driverShuffleboardTab.add("ll stream", limelightFeed).withPosition(0,
+     * 0).withSize(15, 8);
+     */
+
+    SmartDashboard.putData("Auto mode", m_chooser);
+
     m_oi.init(this);
+
   }
 
   /**

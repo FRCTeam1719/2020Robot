@@ -29,6 +29,7 @@ public class MoveToHeading extends Command {
   boolean forward;
   Servo cameraServo;
   double driveSetpoint;
+  boolean move;
 
   public MoveToHeading(Drive _drive, Servo servo) {
     // Use requires() here to declare subsystem dependencies
@@ -49,8 +50,9 @@ public class MoveToHeading extends Command {
     forward = false;
     // might need to set servo to look a bit up in initialize
     // servoPos = cameraServo.get();
-    servoPos = .2;
+    servoPos = .6;
     driveSetpoint = 0;
+    move = false; // MOVE JUST FOR TESTING
 
   }
 
@@ -59,6 +61,7 @@ public class MoveToHeading extends Command {
   protected void execute() {
     double angleDeadzone = 3;
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    System.out.println("tx " + tx);
     steering_adjust = Kp * tx;
 
     left_command += steering_adjust;
@@ -66,6 +69,7 @@ public class MoveToHeading extends Command {
 
     if ((tx < angleDeadzone && tx > 0) || ((tx < 0) && (tx > (-1 * angleDeadzone)))) {
       forward = true;
+      move = true;
       // NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
       // NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
       // cameraServo.set(0);
@@ -74,13 +78,15 @@ public class MoveToHeading extends Command {
       forward = false;
     }
 
-    if (forward) {
-      drive.drive(-.15, .15);
+    if (forward || move) {
+      // UseDrive.leftOutput = .2;
+      // UseDrive.rightOutput = -.2;
+      drive.drive(.3, -.3);
     }
     // have it find the target with servo PID loop
     double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
     if (ty > 3 || ty < -3) {
-      servoPos += ty * KpS;
+      servoPos -= ty * KpS;
     }
 
     cameraServo.set(servoPos);
@@ -103,7 +109,7 @@ public class MoveToHeading extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    UseDrive.leftOutput = .15;
-    UseDrive.rightOutput = -.15;
+    // UseDrive.leftOutput = .15;
+    // UseDrive.rightOutput = -.15;
   }
 }

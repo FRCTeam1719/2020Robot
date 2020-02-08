@@ -36,7 +36,7 @@ public class UseDrive extends Command {
   @Override
   protected void execute() {
 
-    double leftJoystick = -1 * Robot.m_oi.getDriverLeftY() / 2; // CURRENTLY IN SLOWMODE BECAUSE DIVIDING BY 2.
+    double leftJoystick = -1 * Robot.m_oi.getDriverLeftY(); // CURRENTLY IN SLOWMODE BECAUSE DIVIDING BY 2.
     if (leftJoystick < .008 && leftJoystick > -.008)
       leftJoystick = 0;
     errorL = leftJoystick - leftOutput;
@@ -44,7 +44,7 @@ public class UseDrive extends Command {
     if (leftOutput < .01 && leftOutput > -.01)
       leftOutput = 0;
 
-    double rightJoystick = Robot.m_oi.getDriverRightY() / 2;
+    double rightJoystick = Robot.m_oi.getDriverRightY();
     if (rightJoystick < .008 && rightJoystick > -.008)
       rightJoystick = 0;
     errorR = rightJoystick - rightOutput;

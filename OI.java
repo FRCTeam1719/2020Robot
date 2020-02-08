@@ -10,13 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-<<<<<<< HEAD
 import frc.robot.commands.DriverCamera;
 import frc.robot.commands.LambdaCommand;
 import frc.robot.commands.MoveToHeading;
-=======
 import frc.robot.commands.ToggleWinch;
->>>>>>> master
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -56,23 +53,8 @@ public class OI {
 
   // public static int camera1Selected = 0;
 
-  public OI() {
-
-    // Button switchButton = new JoystickButton(operator, 2);
-
-    /*
-     * switchButton.whenPressed(new LambdaCommand(() -> {
-     * System.out.println("switch"); switch (camera1Selected = camera1Selected % 3)
-     * { case 0: Robot.SERVER.setSource(Robot.CAMERA0); break; case 1:
-     * Robot.SERVER.setSource(Robot.CAMERA1); break; } camera1Selected++; }));
-     */
-
-  }
-
-
-
   public void init(Robot robot) {
-    Button toggleWinchButton = new JoystickButton(operator, 4);
+    Button toggleWinchButton = new JoystickButton(driverJoystick, 4);
     toggleWinchButton.whenPressed(new ToggleWinch(robot.winch));
     Button followTargetButton = new JoystickButton(driverJoystick, 3);
     followTargetButton.whileHeld(new MoveToHeading(robot.drive, RobotMap.cameraServo));
