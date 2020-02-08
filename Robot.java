@@ -42,6 +42,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2/* , RobotMap.driveShifter */);
+    winch = new Winch(RobotMap.winch);
+    intake = new Intake(RobotMap.intake, RobotMap.intakePiston);
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     compressor = new Compressor(0);

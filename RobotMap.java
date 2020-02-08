@@ -10,6 +10,7 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 
 /**
@@ -38,5 +39,11 @@ public class RobotMap {
 
   // PNEUMATICS
   public static Solenoid intakePiston = new Solenoid(0);
+
+  // Hall effect sensors
+  /*
+   * DigitalInput winchUpperSwitch = new DigitalInput(1); DigitalInput
+   * winchLowerSwitch = new DigitalInput(2);
+   */
 
 }

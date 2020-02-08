@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.commands.UseIntake;
@@ -21,16 +22,41 @@ public class Winch extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   CANSparkMax motor;
+  DigitalInput upperSwitch;
+  DigitalInput lowerSwitch;
 
-  public Winch(CANSparkMax motor) {
+  public Winch(CANSparkMax motor/* , DigitalInput upperSwitch, DigitalInput lowerSwitch */) {
     super("Winch");
     this.motor = motor;
+    /*
+     * this.upperSwitch = upperSwitch; this.lowerSwitch = lowerSwitch;
+     */
 
   }
 
-  public void moveWinch(double speed) {
+  public boolean atTop() {
+    return upperSwitch.get();
+  }
 
-    motor.set(speed);
+  public boolean atBottom() {
+    return lowerSwitch.get();
+  }
+
+  public void moveWinch(double speed) {
+    if (speed > .25) {
+      motor.set(.25);
+    }
+
+    if (speed < -.25) {
+      motor.set(-.25);
+    }
+
+    else {
+      if (speed > -.05 && speed < .05) {
+        motor.set(.025);
+      } else
+        motor.set(speed);
+    }
 
   }
 

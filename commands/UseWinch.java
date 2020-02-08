@@ -33,9 +33,8 @@ public class UseWinch extends Command {
     double amt = Robot.m_oi.getOperatorLeftY();
 
     if (amt >= 0 && amt < .08 || (amt <= 0 && amt > -.08))
-      amt = .06;
-    System.out.println(amt);
-    winchSubsystem.moveWinch(amt);
+      amt = 0;
+    winchSubsystem.moveWinch(-1 * amt);
 
   }
 
