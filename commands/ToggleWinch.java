@@ -14,6 +14,7 @@ public class ToggleWinch extends Command {
 
   Winch winch;
   double speed;
+  boolean movingUp;
 
   public ToggleWinch(Winch winch) {
     // Use requires() here to declare subsystem dependencies
@@ -25,6 +26,12 @@ public class ToggleWinch extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    if (winch.atTop()) {
+      movingUp = false;
+    }
+    if (winch.atBottom()) {
+      movingUp = true;
+    }
     speed = 0;
   }
 
@@ -32,9 +39,9 @@ public class ToggleWinch extends Command {
   @Override
   protected void execute() {
     if (winch.atTop()) {
-      speed = .25;
+      speed = -.4;
     } else if (winch.atBottom()) {
-      speed = -.25;
+      speed = .4;
     }
     winch.moveWinch(speed);
 
@@ -43,9 +50,12 @@ public class ToggleWinch extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (speed == .25 && winch.atBottom()) {
+    System.out.println(winch.atBottom() + "bottom");
+    System.out.println(winch.atTop() + "top");
+
+    if (!movingUp && winch.atBottom()) {
       return true;
-    } else if (speed == -.25 && winch.atTop()) {
+    } else if (movingUp && winch.atTop()) {
       return true;
     }
     return false;
