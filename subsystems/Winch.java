@@ -64,6 +64,6 @@ public class Winch extends Subsystem {
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new UseWinch(this));
+    // setDefaultCommand(new UseWinch(this));
   }
 }
