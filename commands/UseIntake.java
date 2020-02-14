@@ -30,6 +30,11 @@ public class UseIntake extends Command {
   @Override
   protected void execute() {
     double amt = Robot.m_oi.getOperatorRightY();
+    if (amt > 0 && amt > .5)
+      amt = .5;
+
+    if (amt < 0 && amt < -.5)
+      amt = -.5;
     intakeSubsystem.moveIntake(-1 * amt);
 
   }

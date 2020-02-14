@@ -7,65 +7,45 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Winch;
+import frc.robot.subsystems.Intake;
 
-public class ToggleWinch extends Command {
+public class RunOuttake extends Command {
+  Intake intake;
+  Timer timer;
+  public static final double TIME_TO_RUN = 2.5;
 
-  Winch winch;
-  double speed;
-  boolean movingUp;
-
-  public ToggleWinch(Winch winch) {
+  public RunOuttake(Intake intake) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.winch = winch;
-    requires(this.winch);
+    this.intake = intake;
+    requires(this.intake);
+
+    timer = new Timer();
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    speed = 0;
-    if (winch.atTop()) {
-      movingUp = false;
-    }
-    if (winch.atBottom()) {
-      movingUp = true;
-    } else { // in between bottom and top, move down
-      speed = -.55;
-      movingUp = false;
-    }
+    timer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (winch.atTop()) {
-      speed = -.55;
-    } else if (winch.atBottom()) {
-      speed = .55;
-    }
-    winch.moveWinch(speed);
-
+    intake.moveIntake(1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-
-    if (!movingUp && winch.atBottom()) {
-      return true;
-    } else if (movingUp && winch.atTop()) {
-      return true;
-    }
-    return false;
+    return timer.get() >= TIME_TO_RUN;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    winch.moveWinch(0);
   }
 
   // Called when another command which requires one or more of the same

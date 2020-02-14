@@ -57,7 +57,7 @@ public class OI {
     Button toggleWinchButton = new JoystickButton(driverJoystick, 4);
     toggleWinchButton.whenPressed(new ToggleWinch(robot.winch));
     Button followTargetButton = new JoystickButton(driverJoystick, 3);
-    followTargetButton.whileHeld(new MoveToHeading(robot.drive, RobotMap.cameraServo));
+    followTargetButton.toggleWhenPressed(new MoveToHeading(robot.drive, RobotMap.cameraServo));
     Button driverCam = new JoystickButton(driverJoystick, 1);
     driverCam.whenReleased(new DriverCamera(RobotMap.cameraServo));
   }

@@ -10,6 +10,7 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -44,8 +45,10 @@ public class RobotMap {
   public static final Servo cameraServo = new Servo(0);
 
   // Hall effect sensors
-
   public static DigitalInput winchUpperSwitch = new DigitalInput(0);
   public static DigitalInput winchLowerSwitch = new DigitalInput(1);
+
+  // ultrasonic sensor
+  public static AnalogInput ultrasonicSensor = new AnalogInput(0);
 
 }
