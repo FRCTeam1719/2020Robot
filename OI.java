@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.DriverCamera;
-import frc.robot.commands.LambdaCommand;
 import frc.robot.commands.MoveToHeading;
 import frc.robot.commands.ToggleWinch;
 
@@ -54,12 +53,16 @@ public class OI {
   // public static int camera1Selected = 0;
 
   public void init(Robot robot) {
+
     Button toggleWinchButton = new JoystickButton(driverJoystick, 4);
-    toggleWinchButton.whenPressed(new ToggleWinch(robot.winch));
+    toggleWinchButton.whenPressed(new ToggleWinch(Robot.winch));
+
     Button followTargetButton = new JoystickButton(driverJoystick, 3);
-    followTargetButton.toggleWhenPressed(new MoveToHeading(robot.drive, RobotMap.cameraServo));
+    followTargetButton.toggleWhenPressed(new MoveToHeading(Robot.drive, RobotMap.cameraServo, RobotMap.ultrasonicSensor));
+
     Button driverCam = new JoystickButton(driverJoystick, 1);
     driverCam.whenReleased(new DriverCamera(RobotMap.cameraServo));
+
   }
 
   public double getDriverLeftY() {

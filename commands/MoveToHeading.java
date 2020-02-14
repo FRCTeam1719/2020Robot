@@ -13,11 +13,8 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Winch;
 
 /**
  * An example command. You can replace me with your own command.
@@ -27,22 +24,31 @@ public class MoveToHeading extends Command {
   public static final double Kp = 0.013; // .01 seems to work. ROTATE
   public static final double KpS = 0.001; // .001 seems to work. SERVO
 
-  public static double steering_adjust;
-  double servoPos;
-  Drive drive;
-  boolean forward;
-  Servo cameraServo;
-  double driveSetpoint;
-  boolean move;
-  AnalogInput distanceSensor;
-  boolean down;
-  Timer intakeTimer;
-  boolean foundTarget;
+  public static final double SCORE_DISTANCE = 0.7;
+  public static final double SENSOR_SAFE_TIME = 2.5;
+  public static final double PID_ANGLE_ERROR = 0.06;
 
-  public MoveToHeading(Drive _drive, Servo servo) {
+  double steeringAdjust;
+
+  boolean foundTargetLock;
+  boolean downLock;
+  boolean forwardLock;
+
+  Servo cameraServo;
+  double servoPos;
+
+  Drive drive;
+  double driveSetpoint;
+
+  AnalogInput distanceSensor;
+
+  Timer intakeTimer;
+
+  public MoveToHeading(Drive _drive, Servo servo, AnalogInput distance) {
     // Use requires() here to declare subsystem dependencies
     this.drive = _drive;
     cameraServo = servo;
+    distanceSensor = distance;
     requires(this.drive);
 
   }
@@ -50,68 +56,80 @@ public class MoveToHeading extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    steering_adjust = 0;
+    System.out.println("INITIALIZING Move to heading command...");
+
+    steeringAdjust = 0;
 
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
+
     // might need to set servo to look a bit up in initialize
     // servoPos = cameraServo.get();
+
+    forwardLock = true;
+    downLock = true;
+    foundTargetLock = false;
+
     servoPos = .75;
     cameraServo.set(.75);
+    
     driveSetpoint = 0;
-    forward = true;
-    distanceSensor = RobotMap.ultrasonicSensor;
-    down = true;
+
     intakeTimer = new Timer();
-    System.out.println("INITIALIZING");
-    foundTarget = false;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
     double angleDeadzone = 3;
-    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    steering_adjust = Kp * tx;
+    double targetAngleX = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    steeringAdjust = Kp * targetAngleX;
 
     // System.out.println("distance: " + distanceSensor.getVoltage());
-    if (foundTarget || (tx < angleDeadzone && tx > 0) || ((tx < 0) && (tx > (-1 * angleDeadzone)))) {
-      foundTarget = true;
-      // VERY EXPERIMENTAL
-      if (Robot.winch.atBottom() && down) {
+    if (foundTargetLock || Math.abs(targetAngleX) < angleDeadzone) {
+      foundTargetLock = true;
+
+      if (Robot.winch.atBottom() && downLock) {
         intakeTimer.start();
-        down = false;
+        downLock = false;
+
         Scheduler.getInstance().add(new ToggleWinch(Robot.winch));
       }
-      if (forward) {
+
+      if (forwardLock) 
         drive.drive(.2, -.2);
-      } else
+      else
         drive.drive(0, 0);
 
     } else {
-      // fixes issue where it hasnt found target but it is too close to actually
-      // change
-      if (steering_adjust > 0 && steering_adjust < .06)
-        foundTarget = true;
-      else if (steering_adjust < 0 && steering_adjust > -.06)
-        foundTarget = true;
-      drive.drive(steering_adjust, steering_adjust);
+      // fixes issue where it hasnt found target but it is too close to actually change
+
+      if (steeringAdjust > 0 && steeringAdjust < PID_ANGLE_ERROR)
+        foundTargetLock = true;
+      else if (steeringAdjust < 0 && steeringAdjust > -PID_ANGLE_ERROR)
+        foundTargetLock = true;
+        
+      drive.drive(steeringAdjust, steeringAdjust);
     }
 
     // When it is ready to score
-    if (Robot.winch.atTop() && (distanceSensor.getVoltage() < .7) && intakeTimer.get() > 2.5) {
-      forward = false;
+    if (Robot.winch.atTop() && (distanceSensor.getVoltage() < SCORE_DISTANCE) && intakeTimer.get() > SENSOR_SAFE_TIME) {
+      forwardLock = false;
+
       intakeTimer.stop();
       intakeTimer.reset();
+
       drive.drive(0, 0);
+
       System.out.println("READY TO SCORE");
+
       Scheduler.getInstance().add(new RunOuttake(Robot.intake));
     }
 
     // have it find the target with servo PID loop
-    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    if (ty > 3 || ty < -3) {
-      servoPos -= ty * KpS;
+    double targetAngleY = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    if (targetAngleY > 3 || targetAngleY < -3) {
+      servoPos -= targetAngleY * KpS;
     }
 
     // System.out.println("servo: " + servoPos + Robot.winch.atBottom());
