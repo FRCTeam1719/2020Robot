@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.DriverCamera;
+import frc.robot.commands.MoveToHeading;
 import frc.robot.commands.ToggleWinch;
 
 /**
@@ -45,12 +47,22 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
-  Joystick driverJoystick = new Joystick(0);
-  Joystick operatorJoystick = new Joystick(1);
+  private Joystick driverJoystick = new Joystick(0);
+  private Joystick operator = new Joystick(1);
+
+  // public static int camera1Selected = 0;
 
   public void init(Robot robot) {
-    Button toggleWinchButton = new JoystickButton(operatorJoystick, 4);
-    toggleWinchButton.whenPressed(new ToggleWinch(robot.winch));
+
+    Button toggleWinchButton = new JoystickButton(driverJoystick, 4);
+    toggleWinchButton.whenPressed(new ToggleWinch(Robot.winch));
+
+    Button followTargetButton = new JoystickButton(driverJoystick, 3);
+    followTargetButton.toggleWhenPressed(new MoveToHeading(Robot.drive, RobotMap.cameraServo, RobotMap.ultrasonicSensor));
+
+    Button driverCam = new JoystickButton(driverJoystick, 1);
+    driverCam.whenReleased(new DriverCamera(RobotMap.cameraServo));
+
   }
 
   public double getDriverLeftY() {
@@ -70,10 +82,10 @@ public class OI {
   }
 
   public double getOperatorRightY() {
-    return operatorJoystick.getRawAxis(5);
+    return operator.getRawAxis(5);
   }
 
   public double getOperatorLeftY() {
-    return operatorJoystick.getRawAxis(1);
+    return operator.getRawAxis(1);
   }
 }

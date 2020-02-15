@@ -7,65 +7,43 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Winch;
 
-public class ToggleWinch extends Command {
+public class DriverCamera extends Command {
 
-  Winch winch;
-  double speed;
-  boolean movingUp;
+  Servo cameraServo;
 
-  public ToggleWinch(Winch winch) {
+  public DriverCamera(Servo servo) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    this.winch = winch;
-    requires(this.winch);
+    cameraServo = servo;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    speed = 0;
-    if (winch.atTop()) {
-      movingUp = false;
-    }
-    if (winch.atBottom()) {
-      movingUp = true;
-    } else { // in between bottom and top, move down
-      speed = -.55;
-      movingUp = false;
-    }
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
+    cameraServo.set(1);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (winch.atTop()) {
-      speed = -.55;
-    } else if (winch.atBottom()) {
-      speed = .55;
-    }
-    winch.moveWinch(speed);
 
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-
-    if (!movingUp && winch.atBottom()) {
-      return true;
-    } else if (movingUp && winch.atTop()) {
-      return true;
-    }
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    winch.moveWinch(0);
   }
 
   // Called when another command which requires one or more of the same

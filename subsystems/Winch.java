@@ -10,10 +10,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.commands.UseIntake;
-import frc.robot.commands.UseWinch;
 
 /**
  * Add your docs here.
