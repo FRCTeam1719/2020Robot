@@ -46,9 +46,12 @@ public class Robot extends TimedRobot {
     intake = new Intake(RobotMap.intake);
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
-    // compressor = new Compressor(0);
-    // compressor.setClosedLoopControl(true);
-    // compressor.start();
+    
+    compressor = new Compressor(0);
+    compressor.setClosedLoopControl(true);
+    compressor.start();
+
+
     m_oi.init(this);
   }
 
@@ -72,6 +75,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    compressor.stop();
   }
 
   @Override
@@ -106,6 +110,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
+
+    compressor.start();
   }
 
   /**
@@ -125,6 +131,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    compressor.start();
   }
 
   /**
