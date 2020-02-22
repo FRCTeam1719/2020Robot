@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.ClimberUp;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -38,10 +37,9 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenPressed(new ExampleCommand());
   Joystick operator = new Joystick(1);
-  Button climbButton = new JoystickButton(operator, 0);
 
   public OI() {
-    climbButton.whenPressed(new ClimberUp(Robot.climber));
+
   }
 
   // Run the command while the button is being held down and interrupt it once

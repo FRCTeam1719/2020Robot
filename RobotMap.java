@@ -25,11 +25,10 @@ public class RobotMap {
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
-  public static CANSparkMax left1 = new CANSparkMax(0, MotorType.kBrushless);
-  public static CANSparkMax left2 = new CANSparkMax(1, MotorType.kBrushless);
-  public static CANSparkMax right1 = new CANSparkMax(2, MotorType.kBrushless);
-  public static CANSparkMax right2 = new CANSparkMax(3, MotorType.kBrushless);
+  public static CANSparkMax left1 = new CANSparkMax(1, MotorType.kBrushless);
+  public static CANSparkMax left2 = new CANSparkMax(2, MotorType.kBrushless);
+  public static CANSparkMax right1 = new CANSparkMax(3, MotorType.kBrushless);
+  public static CANSparkMax right2 = new CANSparkMax(4, MotorType.kBrushless);
 
-  public static CANSparkMax climber1 = new CANSparkMax(4, MotorType.kBrushless);
-  public static CANSparkMax climber2 = new CANSparkMax(5, MotorType.kBrushless);
+  public static CANSparkMax climber = new CANSparkMax(7, MotorType.kBrushless);
 }

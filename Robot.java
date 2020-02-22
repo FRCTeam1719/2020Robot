@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2);
-    climber = new Climber(RobotMap.climber1, RobotMap.climber2);
+    climber = new Climber(RobotMap.climber);
     m_oi = new OI();
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);

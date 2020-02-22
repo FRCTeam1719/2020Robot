@@ -7,15 +7,16 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.Climber;
 
-public class ClimberUp extends Command {
-  Timer timer = new Timer();
+public class UseClimber extends Command {
   final int EXPONENT = 5;
   Climber climber;
-  public ClimberUp(Climber climber) {
+  final double JOY_DEADZONE = 0.05;
+  
+  public UseClimber(Climber climber) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     this.climber = climber;
@@ -25,14 +26,21 @@ public class ClimberUp extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    timer.start();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double timeLmaoEBicGamerStyleOwO = timer.get();
-    climber.raise(1 - Math.pow(EXPONENT, -timeLmaoEBicGamerStyleOwO));
+    double val = Robot.m_oi.getOperatorRightY();
+
+    if (Math.abs(val) < JOY_DEADZONE)
+      val = 0;
+    
+    val = val * val * val;
+
+    System.out.println(val);
+
+    climber.raise(val / 2);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -44,7 +52,7 @@ public class ClimberUp extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    timer.reset();
+
   }
 
   // Called when another command which requires one or more of the same

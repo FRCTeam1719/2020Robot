@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.commands.UseClimber;
 
 /**
  * Add your docs here.
@@ -16,22 +17,18 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Climber extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  CANSparkMax climber1;
-  CANSparkMax climber2;
-  public Climber(CANSparkMax climber1, CANSparkMax climber2) { 
+  CANSparkMax climber;
+  public Climber(CANSparkMax climber) { 
     super("Climber");
 
-    this.climber1 = climber1;
-    this.climber2 = climber2;
+    this.climber = climber;
   }
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+  setDefaultCommand(new UseClimber(this));
   }
   public void raise(double acceleration) {
-    climber1.set(acceleration);
-    climber2.set(acceleration);
+    climber.set(acceleration);
   }
 }
