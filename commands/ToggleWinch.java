@@ -8,18 +8,21 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Winch;
 
 public class ToggleWinch extends Command {
 
   Winch winch;
+  Climber climber;
   double speed;
   boolean movingUp;
 
-  public ToggleWinch(Winch winch) {
+  public ToggleWinch(Winch winch, Climber climber) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     this.winch = winch;
+    this.climber = climber;
     requires(this.winch);
   }
 
@@ -52,13 +55,15 @@ public class ToggleWinch extends Command {
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {
+  protected boolean isFinished() { 
+    if (climber.)
 
     if (!movingUp && winch.atBottom()) {
       return true;
     } else if (movingUp && winch.atTop()) {
       return true;
     }
+
     return false;
   }
 

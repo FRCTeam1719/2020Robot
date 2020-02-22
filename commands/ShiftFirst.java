@@ -27,6 +27,7 @@ public class ShiftFirst extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    System.out.println("SHIFTING FIRST");
     drive.setShift(false);
   }
 

@@ -10,12 +10,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Winch;
 
 public class UseIntake extends Command {
   Intake intakeSubsystem;
+  final double DEADZONE = 0.05;
+  Winch winch;
 
-  public UseIntake(Intake intakeSubsystem) {
+  public UseIntake(Intake intakeSubsystem, Winch winch) {
     this.intakeSubsystem = intakeSubsystem;
+    this.winch = winch;
     requires(intakeSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -30,11 +34,10 @@ public class UseIntake extends Command {
   @Override
   protected void execute() {
     double amt = Robot.m_oi.getOperatorRightY();
-    if (amt > 0 && amt > .5)
-      amt = .5;
+    
+    if (Math.abs(amt) < DEADZONE)
+      amt = 0;
 
-    if (amt < 0 && amt < -.5)
-      amt = -.5;
     intakeSubsystem.moveIntake(-1 * amt);
 
   }

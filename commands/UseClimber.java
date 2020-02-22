@@ -7,19 +7,25 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Winch;
 
 public class UseClimber extends Command {
   final int EXPONENT = 5;
   Climber climber;
   final double JOY_DEADZONE = 0.05;
+  private Winch winch;
+  Timer timer;
   
-  public UseClimber(Climber climber) {
+  public UseClimber(Climber climber, Winch winch) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     this.climber = climber;
+    this.winch = winch;
+
     requires(this.climber);
   }
 
@@ -31,14 +37,12 @@ public class UseClimber extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double val = Robot.m_oi.getOperatorRightY();
+    double val = Robot.m_oi.getOperatorLeftY();
 
-    if (Math.abs(val) < JOY_DEADZONE)
+    if (Math.abs(val) < JOY_DEADZONE || !winch.atBottom() || Timer.getMatchTime() > 40)
       val = 0;
     
     val = val * val * val;
-
-    System.out.println(val);
 
     climber.raise(val / 2);
   }

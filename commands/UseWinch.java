@@ -33,6 +33,7 @@ public class UseWinch extends Command {
 
     if (amt >= 0 && amt < .08 || (amt <= 0 && amt > -.08))
       amt = 0;
+    
     winchSubsystem.moveWinch(-1 * amt);
 
   }

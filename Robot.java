@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     climber = new Climber(RobotMap.climber);
     m_oi = new OI();
-    drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2/* , RobotMap.driveShifter */);
+    drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2, RobotMap.driveShifter);
     winch = new Winch(RobotMap.winch, RobotMap.winchUpperSwitch, RobotMap.winchLowerSwitch);
     intake = new Intake(RobotMap.intake);
 
@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putData("Auto mode", m_chooser);
 
-    m_oi.init(this);
+    m_oi.init();
 
   }
 
@@ -137,7 +137,7 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
+      //m_autonomousCommand.start();
     }
 
     compressor.start();

@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Solenoid;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -36,8 +37,8 @@ public class RobotMap {
   public static CANSparkMax left2 = new CANSparkMax(1, MotorType.kBrushless);
   public static CANSparkMax right1 = new CANSparkMax(2, MotorType.kBrushless);
   public static CANSparkMax right2 = new CANSparkMax(3, MotorType.kBrushless);
-
-  // public static Solenoid driveShifter = new Solenoid(1);
+  public static Solenoid driveShifter = new Solenoid(2);
+  
   public static CANSparkMax intake = new CANSparkMax(6, MotorType.kBrushless);
   public static CANSparkMax winch = new CANSparkMax(4, MotorType.kBrushless);
 
