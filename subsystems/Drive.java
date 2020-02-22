@@ -41,6 +41,7 @@ public class Drive extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
+    // setDefaultCommand(new UseDrive(this));
     setDefaultCommand(new UseDrive(this));
   }
 

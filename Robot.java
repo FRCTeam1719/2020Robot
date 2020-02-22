@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.HttpCamera;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -27,12 +29,19 @@ import frc.robot.subsystems.Winch;
 public class Robot extends TimedRobot {
   public static OI m_oi;
   public static Drive drive;
-  private Compressor compressor;
   public static Intake intake;
   public static Winch winch;
 
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  Compressor compressor;
+
+  /*
+   * public static UsbCamera CAMERA0; public static UsbCamera CAMERA1; public
+   * static VideoSink SERVER;
+   */
+
+  private HttpCamera limelightFeed;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -44,6 +53,7 @@ public class Robot extends TimedRobot {
     drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2/* , RobotMap.driveShifter */);
     winch = new Winch(RobotMap.winch, RobotMap.winchUpperSwitch, RobotMap.winchLowerSwitch);
     intake = new Intake(RobotMap.intake);
+
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
     
@@ -52,7 +62,22 @@ public class Robot extends TimedRobot {
     compressor.start();
 
 
+    // Display limelight stuff on shuffleboard
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
+    /*
+     * ShuffleboardTab driverShuffleboardTab = Shuffleboard.getTab("ll stream");
+     * limelightFeed = new HttpCamera("limelight",
+     * "http://limelight.local:5800/stream.mjpg");
+     * driverShuffleboardTab.add("ll stream", limelightFeed).withPosition(0,
+     * 0).withSize(15, 8);
+     */
+
+    SmartDashboard.putData("Auto mode", m_chooser);
+
     m_oi.init(this);
+
   }
 
   /**
