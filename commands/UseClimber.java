@@ -9,23 +9,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Climber;
 
-public class UseDrive extends Command {
-  Drive drive;
-
-  double Kpl = .1;
-  double errorL = 0;
-  public static double leftOutput = 0;
-  double errorR = 0;
-  public static double rightOutput = 0;
-
-  public UseDrive(Drive drive) {
-    this.drive = drive;
-    requires(this.drive);
+public class UseClimber extends Command {
+  final int EXPONENT = 5;
+  Climber climber;
+  final double JOY_DEADZONE = 0.05;
+  
+  public UseClimber(Climber climber) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(drive);
+    this.climber = climber;
+    requires(this.climber);
   }
 
   // Called just before this Command runs the first time
@@ -36,23 +31,16 @@ public class UseDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double val = Robot.m_oi.getOperatorRightY();
 
-    double leftJoystick = -1 * Robot.m_oi.getDriverLeftY();
-    if (leftJoystick < .008 && leftJoystick > -.008)
-      leftJoystick = 0;
-    errorL = leftJoystick - leftOutput;
-    leftOutput = leftOutput + (errorL * Kpl);
-    if (leftOutput < .01 && leftOutput > -.01)
-      leftOutput = 0;
+    if (Math.abs(val) < JOY_DEADZONE)
+      val = 0;
+    
+    val = val * val * val;
 
-    double rightJoystick = Robot.m_oi.getDriverRightY();
-    if (rightJoystick < .008 && rightJoystick > -.008)
-      rightJoystick = 0;
-    errorR = rightJoystick - rightOutput;
-    rightOutput = rightOutput + (errorR * Kpl);
-    if (rightOutput < .01 && rightOutput > -.01)
-      rightOutput = 0;
-    drive.drive(leftOutput, rightOutput);
+    System.out.println(val);
+
+    climber.raise(val / 2);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -64,6 +52,7 @@ public class UseDrive extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+
   }
 
   // Called when another command which requires one or more of the same
