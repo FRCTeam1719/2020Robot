@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -14,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Winch;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +27,9 @@ import frc.robot.subsystems.Drive;
  */
 public class Robot extends TimedRobot {
   public static Drive drive;
+  private Compressor compressor;
+  public static Intake intake;
+  public static Winch winch;
 
   public static Climber climber;
 
@@ -39,11 +45,20 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2);
     climber = new Climber(RobotMap.climber);
     m_oi = new OI();
+    drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2/* , RobotMap.driveShifter */);
+    winch = new Winch(RobotMap.winch, RobotMap.winchUpperSwitch, RobotMap.winchLowerSwitch);
+    intake = new Intake(RobotMap.intake);
     // chooser.addOption("My Auto", new MyAutoCommand());
     SmartDashboard.putData("Auto mode", m_chooser);
+    
+    compressor = new Compressor(0);
+    compressor.setClosedLoopControl(true);
+    compressor.start();
+
+
+    m_oi.init(this);
   }
 
   /**
@@ -65,6 +80,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    compressor.stop();
   }
 
   @Override
@@ -98,6 +114,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
+
+    compressor.start();
   }
 
   /**
@@ -117,6 +135,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    compressor.start();
   }
 
   /**

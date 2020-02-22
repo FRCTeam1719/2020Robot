@@ -10,6 +10,8 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -25,10 +27,24 @@ public class RobotMap {
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
-  public static CANSparkMax left1 = new CANSparkMax(1, MotorType.kBrushless);
-  public static CANSparkMax left2 = new CANSparkMax(2, MotorType.kBrushless);
-  public static CANSparkMax right1 = new CANSparkMax(3, MotorType.kBrushless);
-  public static CANSparkMax right2 = new CANSparkMax(4, MotorType.kBrushless);
 
   public static CANSparkMax climber = new CANSparkMax(7, MotorType.kBrushless);
+
+  public static CANSparkMax left1 = new CANSparkMax(5, MotorType.kBrushless);
+  public static CANSparkMax left2 = new CANSparkMax(1, MotorType.kBrushless);
+  public static CANSparkMax right1 = new CANSparkMax(2, MotorType.kBrushless);
+  public static CANSparkMax right2 = new CANSparkMax(3, MotorType.kBrushless);
+
+  // public static Solenoid driveShifter = new Solenoid(1);
+  public static CANSparkMax intake = new CANSparkMax(6, MotorType.kBrushless);
+  public static CANSparkMax winch = new CANSparkMax(4, MotorType.kBrushless);
+
+  // PNEUMATICS
+  // public static Solenoid intakePiston = new Solenoid(0);
+
+  // Hall effect sensors
+
+  public static DigitalInput winchUpperSwitch = new DigitalInput(0);
+  public static DigitalInput winchLowerSwitch = new DigitalInput(1);
+
 }

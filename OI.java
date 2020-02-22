@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.ToggleWinch;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -52,6 +53,11 @@ public class OI {
 
   Joystick driverJoystick = new Joystick(0);
   Joystick operatorJoystick = new Joystick(1);
+
+  public void init(Robot robot) {
+    Button toggleWinchButton = new JoystickButton(operatorJoystick, 4);
+    toggleWinchButton.whenPressed(new ToggleWinch(Robot.winch));
+  }
 
   public double getDriverLeftY() {
     return driverJoystick.getRawAxis(1);
