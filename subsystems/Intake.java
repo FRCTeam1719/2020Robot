@@ -26,12 +26,10 @@ public class Intake extends Subsystem {
   }
 
   public void moveIntake(double speed) {
-
     intake.set(speed);
-
   }
 
-  
+
 
   @Override
   public void initDefaultCommand() {

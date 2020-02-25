@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.autons.MoveToHeadingAuton;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Intake;
@@ -80,6 +81,7 @@ public class Robot extends TimedRobot {
      * 0).withSize(15, 8);
      */
 
+    m_chooser.addOption("Move To Heading", new MoveToHeadingAuton(drive, RobotMap.cameraServo, RobotMap.ultrasonicSensor, winch));
     SmartDashboard.putData("Auto mode", m_chooser);
 
     m_oi.init();
@@ -137,7 +139,7 @@ public class Robot extends TimedRobot {
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
-      //m_autonomousCommand.start();
+      m_autonomousCommand.start();
     }
 
     compressor.start();

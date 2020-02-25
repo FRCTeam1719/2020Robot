@@ -44,7 +44,7 @@ public class UseClimber extends Command {
     
     val = val * val * val;
 
-    climber.raise(val / 2);
+    climber.raise(val);
   }
 
   // Make this return true when this Command no longer needs to run execute()

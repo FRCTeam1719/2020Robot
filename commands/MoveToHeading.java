@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.Winch;
 
 /**
  * An example command. You can replace me with your own command.
@@ -42,13 +43,15 @@ public class MoveToHeading extends Command {
 
   AnalogInput distanceSensor;
 
+  Winch winch;
   Timer intakeTimer;
 
-  public MoveToHeading(Drive _drive, Servo servo, AnalogInput distance) {
+  public MoveToHeading(Drive drive, Servo servo, AnalogInput distance, Winch winch) {
     // Use requires() here to declare subsystem dependencies
-    this.drive = _drive;
+    this.drive = drive;
     cameraServo = servo;
     distanceSensor = distance;
+    this.winch = winch;
     requires(this.drive);
 
   }
@@ -89,7 +92,7 @@ public class MoveToHeading extends Command {
     if (foundTargetLock || Math.abs(targetAngleX) < angleDeadzone) {
       foundTargetLock = true;
 
-      if (Robot.winch.atBottom() && downLock) {
+      if (winch.atBottom() && downLock) {
         intakeTimer.start();
         downLock = false;
 

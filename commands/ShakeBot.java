@@ -7,66 +7,56 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Winch;
 
-public class ToggleWinch extends Command {
+public class ShakeBot extends Command {
+  final double SHAKE_STRENGTH = 0.5;
 
-  Winch winch;
-  double speed;
-  boolean movingUp;
+  Timer timer;
+  private Drive drive;
+  private Winch winch;
 
-  public ToggleWinch(Winch winch) {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+  public ShakeBot(Drive drive, Winch winch) {
+    timer = new Timer();
+    timer.start();
+
+    this.drive = drive;
     this.winch = winch;
-    requires(this.winch);
+
+    requires(drive);
+    requires(winch);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    speed = 0;
-    if (winch.atTop()) {
-      movingUp = false;
-    }
-    if (winch.atBottom()) {
-      movingUp = true;
-    } else { // in between bottom and top, move down
-      speed = -.55;
-      movingUp = false;
-    }
+    timer.reset();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (winch.atTop()) {
-      speed = -.55;
-    } else if (winch.atBottom()) {
-      speed = .55;
+    if (timer.get() > 0.5) {
+      drive.drive(SHAKE_STRENGTH, SHAKE_STRENGTH);
+    } else {
+      drive.drive(-SHAKE_STRENGTH, -SHAKE_STRENGTH);
     }
-    winch.moveWinch(speed);
 
+    winch.moveWinch(-.55);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (!movingUp && winch.atBottom()) {
-      return true;
-    } else if (movingUp && winch.atTop()) {
-      return true;
-    }
-
-    return false;
+    return winch.atBottom();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    winch.moveWinch(0);
   }
 
   // Called when another command which requires one or more of the same

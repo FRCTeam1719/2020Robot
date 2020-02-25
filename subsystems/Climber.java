@@ -5,10 +5,11 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems; 
+package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.Robot;
 import frc.robot.commands.UseClimber;
 
 /**
@@ -26,7 +27,7 @@ public class Climber extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-  setDefaultCommand(new UseClimber(this));
+  setDefaultCommand(new UseClimber(this, Robot.winch));
   }
   public void raise(double acceleration) {
     climber.set(acceleration);

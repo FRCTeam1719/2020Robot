@@ -10,16 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Winch;
 
 public class UseIntake extends Command {
   Intake intakeSubsystem;
   final double DEADZONE = 0.05;
-  Winch winch;
 
-  public UseIntake(Intake intakeSubsystem, Winch winch) {
+  public UseIntake(Intake intakeSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
-    this.winch = winch;
     requires(intakeSubsystem);
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
