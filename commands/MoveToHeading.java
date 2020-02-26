@@ -52,7 +52,8 @@ public class MoveToHeading extends Command {
     cameraServo = servo;
     distanceSensor = distance;
     this.winch = winch;
-    requires(this.drive);
+    // requires(this.drive);
+    // requires(this.winch);
 
   }
 
@@ -60,7 +61,6 @@ public class MoveToHeading extends Command {
   @Override
   protected void initialize() {
     System.out.println("INITIALIZING Move to heading command...");
-
     steeringAdjust = 0;
 
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
@@ -73,12 +73,14 @@ public class MoveToHeading extends Command {
     downLock = true;
     foundTargetLock = false;
 
-    servoPos = .75;
-    cameraServo.set(.75);
+    servoPos = .6;
+    cameraServo.set(.6);
     
     driveSetpoint = 0;
 
     intakeTimer = new Timer();
+
+
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -88,6 +90,7 @@ public class MoveToHeading extends Command {
     double targetAngleX = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     steeringAdjust = Kp * targetAngleX;
 
+    System.out.println("in execute");
     // System.out.println("distance: " + distanceSensor.getVoltage());
     if (foundTargetLock || Math.abs(targetAngleX) < angleDeadzone) {
       foundTargetLock = true;
@@ -96,7 +99,8 @@ public class MoveToHeading extends Command {
         intakeTimer.start();
         downLock = false;
 
-        Scheduler.getInstance().add(new ToggleWinch(Robot.winch));
+        System.out.println("about to winch");
+        Scheduler.getInstance().add(new ToggleWinch(winch));
       }
 
       if (forwardLock) 
@@ -171,7 +175,7 @@ public class MoveToHeading extends Command {
   @Override
   protected void interrupted() {
     System.out.println("interrupted");
-    cameraServo.set(.75);
+    cameraServo.set(.6);
     // UseDrive.leftOutput = .15;
     // UseDrive.rightOutput = -.15;
   }

@@ -21,7 +21,7 @@ public class ToggleWinch extends Command {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     this.winch = winch;
-    requires(this.winch);
+    //requires(this.winch);
   }
 
   // Called just before this Command runs the first time

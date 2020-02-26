@@ -87,8 +87,7 @@ public class UseDrive extends Command {
       rightOutput = 0;
 
     }
-      System.out.println("left" + leftOutput);
-      System.out.println("right" + rightOutput);
+ 
 
       drive.drive(leftOutput, rightOutput);
 

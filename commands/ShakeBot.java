@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Winch;
 
@@ -39,13 +40,20 @@ public class ShakeBot extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (timer.get() > 0.5) {
-      drive.drive(SHAKE_STRENGTH, SHAKE_STRENGTH);
+    if (timer.get() > 0.2) {
+      drive.drive(SHAKE_STRENGTH, -SHAKE_STRENGTH);
+      if(timer.get() > .75){
+        drive.drive(0, 0);
+        winch.moveWinch(-.1);
+      }
+      else if(timer.get() > .6){
+        drive.drive(-.1,.1);
+      }
+      
     } else {
-      drive.drive(-SHAKE_STRENGTH, -SHAKE_STRENGTH);
+      winch.moveWinch(-.1);
     }
 
-    winch.moveWinch(-.55);
   }
 
   // Make this return true when this Command no longer needs to run execute()

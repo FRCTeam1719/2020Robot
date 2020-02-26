@@ -19,6 +19,10 @@ public class MoveToHeadingAuton extends CommandGroup {
   /**
    * Add your docs here.
    */
+  Drive drive;
+  Servo servo;
+  AnalogInput ultra;
+  Winch winch;
   public MoveToHeadingAuton(Drive drive, Servo servo, AnalogInput ultra, Winch winch) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
@@ -36,8 +40,14 @@ public class MoveToHeadingAuton extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
+    this.drive = drive;
+    this.servo = servo;
+    this.ultra = ultra;
+    this.winch = winch;
+    requires(this.drive);
+    requires(this.winch);
 
-    addSequential(new ShakeBot(drive, winch));
-    addSequential(new MoveToHeading(drive, servo, ultra, winch));
+    addSequential(new ShakeBot(this.drive, this.winch));
+    addSequential(new MoveToHeading(this.drive, this.servo, this.ultra, this.winch));
   }
 }

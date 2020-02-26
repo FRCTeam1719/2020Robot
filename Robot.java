@@ -40,6 +40,7 @@ public class Robot extends TimedRobot {
   
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
+  Command autoCommand;
   Compressor compressor;
 
   /*
@@ -81,9 +82,9 @@ public class Robot extends TimedRobot {
      * 0).withSize(15, 8);
      */
 
-    m_chooser.addOption("Move To Heading", new MoveToHeadingAuton(drive, RobotMap.cameraServo, RobotMap.ultrasonicSensor, winch));
+    //m_chooser.addOption("Move To Heading", new MoveToHeadingAuton(drive, RobotMap.cameraServo, RobotMap.ultrasonicSensor, winch));
     SmartDashboard.putData("Auto mode", m_chooser);
-
+    autoCommand = new MoveToHeadingAuton(drive, RobotMap.cameraServo, RobotMap.ultrasonicSensor, winch);
     m_oi.init();
 
   }
@@ -128,7 +129,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+   // m_autonomousCommand = m_chooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -138,8 +139,8 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
+    if (autoCommand != null) {
+      autoCommand.start();
     }
 
     compressor.start();
@@ -159,8 +160,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (autoCommand != null) {
+      autoCommand.cancel();
     }
     compressor.start();
   }
