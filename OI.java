@@ -100,4 +100,7 @@ public class OI {
   public double getOperatorLeftY() {
     return operatorJoystick.getRawAxis(1);
   }
+  public boolean getDriverDriveMode() {
+    return driverJoystick.getRawButton(7);
+  }
 }
