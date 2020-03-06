@@ -8,6 +8,8 @@
 package frc.robot;
 
 import edu.wpi.cscore.HttpCamera;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -15,6 +17,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.autons.CrossLineAuton;
 import frc.robot.commands.autons.MoveToHeadingAuton;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drive;
@@ -49,6 +52,7 @@ public class Robot extends TimedRobot {
    */
 
   private HttpCamera limelightFeed;
+  UsbCamera camera;
 
   /**
    * This function is run when the robot is first started up and should be
@@ -56,6 +60,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    //Camera
+    //camera = CameraServer.getInstance().startAutomaticCapture();
+
     climber = new Climber(RobotMap.climber);
     m_oi = new OI();
     drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2, RobotMap.driveShifter);
@@ -84,8 +91,11 @@ public class Robot extends TimedRobot {
 
     //m_chooser.addOption("Move To Heading", new MoveToHeadingAuton(drive, RobotMap.cameraServo, RobotMap.ultrasonicSensor, winch));
     SmartDashboard.putData("Auto mode", m_chooser);
-    autoCommand = new MoveToHeadingAuton(drive, RobotMap.cameraServo, RobotMap.ultrasonicSensor, winch);
+    m_chooser.addOption("Move To Heading", new MoveToHeadingAuton(drive, RobotMap.ultrasonicSensor, winch));
+    m_chooser.addOption("Cross Line", new CrossLineAuton(drive, winch));
     m_oi.init();
+
+    autoCommand = new MoveToHeadingAuton(drive, RobotMap.ultrasonicSensor, winch); 
 
   }
 

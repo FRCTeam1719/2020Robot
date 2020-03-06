@@ -46,10 +46,9 @@ public class MoveToHeading extends Command {
   Winch winch;
   Timer intakeTimer;
 
-  public MoveToHeading(Drive drive, Servo servo, AnalogInput distance, Winch winch) {
+  public MoveToHeading(Drive drive, AnalogInput distance, Winch winch) {
     // Use requires() here to declare subsystem dependencies
     this.drive = drive;
-    cameraServo = servo;
     distanceSensor = distance;
     this.winch = winch;
     // requires(this.drive);
@@ -74,7 +73,6 @@ public class MoveToHeading extends Command {
     foundTargetLock = false;
 
     servoPos = .6;
-    cameraServo.set(.6);
     
     driveSetpoint = 0;
 
@@ -110,7 +108,6 @@ public class MoveToHeading extends Command {
 
     } else {
       // fixes issue where it hasnt found target but it is too close to actually change
-
       if (steeringAdjust > 0 && steeringAdjust < PID_ANGLE_ERROR)
         foundTargetLock = true;
       else if (steeringAdjust < 0 && steeringAdjust > -PID_ANGLE_ERROR)
@@ -134,25 +131,25 @@ public class MoveToHeading extends Command {
     }
 
     // have it find the target with servo PID loop
-    double targetAngleY = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    if (targetAngleY > 3 || targetAngleY < -3) {
-      servoPos -= targetAngleY * KpS;
-    }
-
-    // System.out.println("servo: " + servoPos + Robot.winch.atBottom());
-
-    // when it should raise the winch based on distance
-    // if (((distanceSensor.getVoltage() < 2) && Robot.winch.atBottom()) && down) {
-    // down = false;
-    // Scheduler.getInstance().add(new ToggleWinch(Robot.winch));
-    // System.out.println("moving winch");
-    // // drive.drive(-.001, 0.001);
+    // double targetAngleY = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    // if (targetAngleY > 3 || targetAngleY < -3) {
+    //   servoPos -= targetAngleY * KpS;
     // }
 
-    if (servoPos < .3) {
-      servoPos = .3;
-    }
-    cameraServo.set(servoPos);
+    // // System.out.println("servo: " + servoPos + Robot.winch.atBottom());
+
+    // // when it should raise the winch based on distance
+    // // if (((distanceSensor.getVoltage() < 2) && Robot.winch.atBottom()) && down) {
+    // // down = false;
+    // // Scheduler.getInstance().add(new ToggleWinch(Robot.winch));
+    // // System.out.println("moving winch");
+    // // // drive.drive(-.001, 0.001);
+    // // }
+
+    // if (servoPos < .3) {
+    //   servoPos = .3;
+    // }
+    // cameraServo.set(servoPos);
 
   }
 
@@ -166,8 +163,7 @@ public class MoveToHeading extends Command {
   @Override
   protected void end() {
     System.out.println("end");
-    UseDrive.leftOutput = .15;
-    UseDrive.rightOutput = -.15;
+
   }
 
   // Called when another command which requires one or more of the same
@@ -175,7 +171,6 @@ public class MoveToHeading extends Command {
   @Override
   protected void interrupted() {
     System.out.println("interrupted");
-    cameraServo.set(.6);
     // UseDrive.leftOutput = .15;
     // UseDrive.rightOutput = -.15;
   }

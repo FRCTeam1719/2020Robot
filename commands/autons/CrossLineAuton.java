@@ -7,23 +7,17 @@
 
 package frc.robot.commands.autons;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.MoveToHeading;
+import frc.robot.commands.CrossLine;
 import frc.robot.commands.ShakeBot;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Winch;
 
-public class MoveToHeadingAuton extends CommandGroup {
+public class CrossLineAuton extends CommandGroup {
   /**
    * Add your docs here.
    */
-  Drive drive;
-  Servo servo;
-  AnalogInput ultra;
-  Winch winch;
-  public MoveToHeadingAuton(Drive drive, AnalogInput ultra, Winch winch) {
+  public CrossLineAuton(Drive drive, Winch winch) {
     // Add Commands here:
     // e.g. addSequential(new Command1());
     // addSequential(new Command2());
@@ -40,13 +34,8 @@ public class MoveToHeadingAuton extends CommandGroup {
     // e.g. if Command1 requires chassis, and Command2 requires arm,
     // a CommandGroup containing them would require both the chassis and the
     // arm.
-    this.drive = drive;
-    this.ultra = ultra;
-    this.winch = winch;
-    requires(this.drive);
-    requires(this.winch);
 
-    addSequential(new ShakeBot(this.drive, this.winch));
-    addSequential(new MoveToHeading(this.drive, this.ultra, this.winch));
+    addSequential(new ShakeBot(drive, winch));
+    addSequential(new CrossLine(drive));
   }
 }

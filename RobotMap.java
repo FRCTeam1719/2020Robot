@@ -45,7 +45,7 @@ public class RobotMap {
   // PNEUMATICS
   // public static Solenoid intakePiston = new Solenoid(0);
 
-  public static final Servo cameraServo = new Servo(0);
+ // public static final Servo cameraServo = new Servo(0); 
 
   // Hall effect sensors
   public static DigitalInput winchUpperSwitch = new DigitalInput(0);

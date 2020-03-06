@@ -15,10 +15,9 @@ public class DriverCamera extends Command {
 
   Servo cameraServo;
 
-  public DriverCamera(Servo servo) {
+  public DriverCamera() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    cameraServo = servo;
   }
 
   // Called just before this Command runs the first time
@@ -26,7 +25,6 @@ public class DriverCamera extends Command {
   protected void initialize() {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
-    cameraServo.set(1);
   }
 
   // Called repeatedly when this Command is scheduled to run
