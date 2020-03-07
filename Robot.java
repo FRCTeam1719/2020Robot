@@ -95,7 +95,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("Cross Line", new CrossLineAuton(drive, winch));
     m_oi.init();
 
-    autoCommand = new MoveToHeadingAuton(drive, RobotMap.ultrasonicSensor, winch); 
+    //autoCommand = new MoveToHeadingAuton(drive, RobotMap.ultrasonicSensor, winch); 
 
   }
 
@@ -139,7 +139,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-   // m_autonomousCommand = m_chooser.getSelected();
+   m_autonomousCommand = m_chooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -149,8 +149,8 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (autoCommand != null) {
-      autoCommand.start();
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.start();
     }
 
     compressor.start();
@@ -170,8 +170,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (autoCommand != null) {
-      autoCommand.cancel();
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
     }
     compressor.start();
   }
