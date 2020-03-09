@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
     //Camera
     //camera = CameraServer.getInstance().startAutomaticCapture();
 
-    climber = new Climber(RobotMap.climber);
+    climber = new Climber(RobotMap.climber, RobotMap.climber2);
     m_oi = new OI();
     drive = new Drive(RobotMap.left1, RobotMap.left2, RobotMap.right1, RobotMap.right2, RobotMap.driveShifter);
     winch = new Winch(RobotMap.winch, RobotMap.winchUpperSwitch, RobotMap.winchLowerSwitch);

@@ -32,6 +32,7 @@ public class RobotMap {
   // public static int rangefinderModule = 1;
 
   public static CANSparkMax climber = new CANSparkMax(7, MotorType.kBrushless);
+  public static CANSparkMax climber2 = new CANSparkMax(8, MotorType.kBrushless);
 
   public static CANSparkMax left1 = new CANSparkMax(5, MotorType.kBrushless);
   public static CANSparkMax left2 = new CANSparkMax(1, MotorType.kBrushless);

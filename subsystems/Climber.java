@@ -19,10 +19,12 @@ public class Climber extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
   CANSparkMax climber;
-  public Climber(CANSparkMax climber) { 
+  CANSparkMax climber2;
+  public Climber(CANSparkMax climber, CANSparkMax climber2) { 
     super("Climber");
 
     this.climber = climber;
+    this.climber2 = climber2;
   }
 
   @Override
@@ -31,5 +33,6 @@ public class Climber extends Subsystem {
   }
   public void raise(double acceleration) {
     climber.set(acceleration);
+    climber2.set(acceleration);
   }
 }
